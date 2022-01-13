@@ -4,15 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Léo Carvalho <carvalho.csleo@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.24.0",
     "axios-oauth-1.0a": "^0.3.4",
     "dotenv": "^11.0.0",
     "luxon": "^2.3.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
