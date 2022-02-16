@@ -1,6 +1,17 @@
-const twitterApi = require('./services/twitterApi');
-const { textGenerator: text } = require('./lib/textGenerator');
+const path = require('path');
+require('dotenv').config();
+const express = require('express');
+const helmet = require('helmet');
 
-twitterApi.post('tweets', {
-  text: text(),
-})
+
+// deepcode ignore UseCsurfForExpress: Just receive GET requests, without create any resources at server by Express.
+const app = express();
+
+app.use(helmet());
+
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+module.exports = app;
