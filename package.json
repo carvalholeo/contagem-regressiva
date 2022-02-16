@@ -17,9 +17,11 @@
     "canvas": "^2.9.0",
     "dotenv": "^11.0.0",
     "express": "^4.17.2",
+    "express-bouncer": "^0.2.0",
     "form-data": "^4.0.0",
     "helmet": "^5.0.2",
     "luxon": "^2.3.0",
+    "toobusy-js": "^0.5.1",
     "uuid": "^8.3.2"
   },
   "engines": {
