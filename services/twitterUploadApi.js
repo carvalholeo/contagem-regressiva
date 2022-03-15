@@ -1,4 +1,5 @@
-require('dotenv').config({path: '../.env'});
+const path = require('path');
+require('dotenv').config({path: path.join(__dirname, '..', '.env')});
 
 const axios = require('axios')
 const oauth1a = require('axios-oauth-1.0a');
