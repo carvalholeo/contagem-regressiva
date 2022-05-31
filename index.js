@@ -1,4 +1,4 @@
-require('dotenv').config({path: './.env'});
+require('dotenv').config({ path: './.env' });
 
 const path = require('path');
 const express = require('express');
@@ -15,7 +15,7 @@ const app = express();
 app.use(helmet());
 
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(toobusyMiddleware);
 app.use(bouncer.block);
 app.use(compression());
