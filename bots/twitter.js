@@ -8,28 +8,33 @@ const twitterUploadApi = require('../services/twitterUploadApi');
 const { textGenerator: text } = require('../lib/textGenerator');
 const { imageGenerator } = require('../lib/imageGenerator/imageGenerator');
 
-text()
-  .then(async TEXT_GENERATED => {
-    const file = await imageGenerator(TEXT_GENERATED)
+function twitterBot() {
 
-    const form = new FormData();
-    form.append('media_data', file);
-    form.append('media_category', 'tweet_image');
+  text()
+    .then(async TEXT_GENERATED => {
+      const file = await imageGenerator(TEXT_GENERATED)
+  
+      const form = new FormData();
+      form.append('media_data', file);
+      form.append('media_category', 'tweet_image');
+  
+      const response = await twitterUploadApi.post('upload.json', form, {
+        headers: form.getHeaders()
+      });
+  
+      return { data: response.data, TEXT_GENERATED };
+    })
+    .then(async ({ data, TEXT_GENERATED }) => {
+      await twitterApi.post('tweets', {
+        text: TEXT_GENERATED,
+        media: {
+          media_ids: [
+            data.media_id_string
+          ]
+        }
+      });
+    })
+    .catch(console.trace);
+}
 
-    const response = await twitterUploadApi.post('upload.json', form, {
-      headers: form.getHeaders()
-    });
-
-    return { data: response.data, TEXT_GENERATED };
-  })
-  .then(async ({ data, TEXT_GENERATED }) => {
-    await twitterApi.post('tweets', {
-      text: TEXT_GENERATED,
-      media: {
-        media_ids: [
-          data.media_id_string
-        ]
-      }
-    });
-  })
-  .catch(console.trace);
+module.exports = twitterBot;

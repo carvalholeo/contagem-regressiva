@@ -25,12 +25,13 @@
     "luxon": "^2.3.1",
     "mariadb": "^3.0.0",
     "mysql2": "^2.3.3",
+    "node-cron": "^3.0.1",
     "sequelize": "^6.20.1",
     "toobusy-js": "^0.5.1",
     "uuid": "^8.3.2"
   },
   "engines": {
-    "node": "16.15.0"
+    "node": "16.15.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

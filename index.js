@@ -4,6 +4,9 @@ const path = require('path');
 const express = require('express');
 const helmet = require('helmet');
 const compression = require('compression');
+const cron = require('node-cron');
+
+const twitterBot = require('./bots/twitter');
 
 const bouncer = require('./middlewares/bouncer');
 const toobusyMiddleware = require('./middlewares/toobusy');
@@ -21,5 +24,9 @@ app.use(bouncer.block);
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
 
+cron.schedule('*/9 * * * *', (datetime) => {
+  twitterBot();
+  console.info(`Twitter bot executed at ${datetime}`);
+});
 
 module.exports = app;
