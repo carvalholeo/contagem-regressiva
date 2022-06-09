@@ -1,7 +1,6 @@
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 
-const fs = require('fs');
 const FormData = require('form-data');
 
 const twitterApi = require('../services/twitterApi');
@@ -14,7 +13,7 @@ text()
     const file = await imageGenerator(TEXT_GENERATED)
 
     const form = new FormData();
-    form.append('media_data', fs.readFileSync(file, { encoding: 'base64' }));
+    form.append('media_data', file);
     form.append('media_category', 'tweet_image');
 
     const response = await twitterUploadApi.post('upload.json', form, {
