@@ -26,7 +26,9 @@ function twitterBot() {
     })
     .then(async ({ data, TEXT_GENERATED }) => {
       await twitterApi.post('tweets', {
-        text: TEXT_GENERATED,
+        text:`${TEXT_GENERATED}
+
+${process.env.HASHTAG || ''}`,
         media: {
           media_ids: [
             data.media_id_string
@@ -36,5 +38,6 @@ function twitterBot() {
     })
     .catch(console.trace);
 }
+twitterBot()
 
 module.exports = twitterBot;
