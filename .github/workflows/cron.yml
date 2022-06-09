@@ -4,9 +4,6 @@ on:
   schedule:
     - cron: "*/9 * * * *"
 
-permissions:
-  contents: read
-
 env:
   ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
   ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
