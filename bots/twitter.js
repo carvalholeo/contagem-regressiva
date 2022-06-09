@@ -38,6 +38,5 @@ ${process.env.HASHTAG || ''}`,
     })
     .catch(console.trace);
 }
-twitterBot()
 
 module.exports = twitterBot;
