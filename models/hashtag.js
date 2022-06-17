@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Hashtag',
+    timestamps: false,
   });
+  Hashtag.removeAttribute('id');
   return Hashtag;
 };
