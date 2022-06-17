@@ -7,6 +7,7 @@ const twitterApi = require('../services/twitterApi');
 const twitterUploadApi = require('../services/twitterUploadApi');
 const { textGenerator: text } = require('../lib/textGenerator');
 const { imageGenerator } = require('../lib/imageGenerator/imageGenerator');
+const { Hashtag } = require('../models');
 
 function twitterBot() {
 
@@ -25,10 +26,11 @@ function twitterBot() {
       return { data: response.data, TEXT_GENERATED };
     })
     .then(async ({ data, TEXT_GENERATED }) => {
+      const hashtag = await Hashtag.findOne({});
       await twitterApi.post('tweets', {
         text:`${TEXT_GENERATED}
 
-${process.env.HASHTAG || ''}`,
+${process.env.HASHTAG || hashtag?.hashtag || ''}`,
         media: {
           media_ids: [
             data.media_id_string
