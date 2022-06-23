@@ -13,7 +13,7 @@ function twitterBot() {
 
   text()
     .then(async TEXT_GENERATED => {
-      const file = await imageGenerator(TEXT_GENERATED)
+      const file = await imageGenerator(TEXT_GENERATED.endGov)
   
       const form = new FormData();
       form.append('media_data', file);
@@ -28,7 +28,7 @@ function twitterBot() {
     .then(async ({ data, TEXT_GENERATED }) => {
       const hashtag = await Hashtag.findOne({});
       await twitterApi.post('tweets', {
-        text:`${TEXT_GENERATED}
+        text:`${TEXT_GENERATED.endGov} ${TEXT_GENERATED.firstRound}
 
 ${process.env.HASHTAG || hashtag?.hashtag || ''}`,
         media: {
