@@ -14,21 +14,23 @@ function twitterBot() {
   text()
     .then(async TEXT_GENERATED => {
       const file = await imageGenerator(TEXT_GENERATED.endGov)
-  
+
       const form = new FormData();
       form.append('media_data', file);
       form.append('media_category', 'tweet_image');
-  
+
       const response = await twitterUploadApi.post('upload.json', form, {
         headers: form.getHeaders()
       });
-  
+
       return { data: response.data, TEXT_GENERATED };
     })
     .then(async ({ data, TEXT_GENERATED }) => {
       const hashtag = await Hashtag.findOne({});
       await twitterApi.post('tweets', {
-        text:`${TEXT_GENERATED.endGov} ${TEXT_GENERATED.firstRound}
+        text:`${TEXT_GENERATED.firstRound}
+
+${TEXT_GENERATED.endGov}
 
 ${process.env.HASHTAG || hashtag?.hashtag || ''}`,
         media: {
