@@ -13,6 +13,11 @@ function twitterBot() {
 
   text()
     .then(async TEXT_GENERATED => {
+      const textContainsUndefined = TEXT_GENERATED.endGov.includes('undefined');
+      if (textContainsUndefined) {
+        twitterBot();
+        throw new Error('Error used for skip next steps.');
+      }
       const file = await imageGenerator(TEXT_GENERATED.endGov)
 
       const form = new FormData();
