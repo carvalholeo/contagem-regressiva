@@ -24,7 +24,7 @@ app.use(bouncer.block);
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
 
-cron.schedule('*/9 * * * *', (datetime) => {
+cron.schedule(process.env.CRON_TIME || '*/9 * * * *', (datetime) => {
   twitterBot();
   console.info(`Twitter bot executed at ${datetime}`);
 });
