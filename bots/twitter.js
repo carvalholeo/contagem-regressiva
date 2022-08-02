@@ -9,6 +9,8 @@ const { textGenerator: text } = require('../lib/textGenerator');
 const { imageGenerator } = require('../lib/imageGenerator/imageGenerator');
 const { Hashtag } = require('../models');
 
+let attempt = 1;
+
 function twitterBot() {
 
   text()
@@ -45,7 +47,14 @@ ${process.env.HASHTAG || hashtag?.hashtag || ''}`,
         }
       });
     })
-    .catch(console.trace);
+    .catch((error) => {
+      if (error?.original?.code === 'ETIMEDOUT' && attempt <= 5) {
+        attempt++;
+        console.warn(`Timed out to access database. Giving shot number ${attempt}`);
+        twitterBot();
+      }
+      console.trace(error?.original)
+    });
 }
 
 module.exports = twitterBot;
