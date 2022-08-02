@@ -52,9 +52,11 @@ ${process.env.HASHTAG || hashtag?.hashtag || ''}`,
         attempt++;
         console.warn(`Timed out to access database. Giving shot number ${attempt}`);
         twitterBot();
+        return;
       }
       console.trace(error?.original)
     });
 }
 
 module.exports = twitterBot;
+
