@@ -27,6 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 cron.schedule(process.env.CRON_TIME || '*/9 * * * *', (datetime) => {
   twitterBot();
   console.info(`Twitter bot executed at ${datetime}`);
+}, {
+  timezone: 'America/Sao_Paulo'
 });
 
 module.exports = app;
