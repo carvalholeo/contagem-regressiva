@@ -54,9 +54,8 @@ ${process.env.HASHTAG || hashtag?.hashtag || ''}`,
         twitterBot();
         return;
       }
-      console.trace(error?.original)
+      console.trace(error)
     });
 }
 
 module.exports = twitterBot;
-
