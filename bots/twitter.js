@@ -39,7 +39,7 @@ function twitterBot() {
 
 ${TEXT_GENERATED.endGov}
 
-${process.env.HASHTAG || hashtag?.hashtag || ''}`,
+${process.env.HASHTAG || hashtag?.hashtag || ''} #Eleicoes2022`,
         media: {
           media_ids: [
             data.media_id_string
