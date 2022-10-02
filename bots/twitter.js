@@ -35,7 +35,7 @@ function twitterBot() {
     .then(async ({ data, TEXT_GENERATED }) => {
       const hashtag = await Hashtag.findOne({});
       await twitterApi.post('tweets', {
-        text:`O COMEÇO DO FIM É HOJE! ${TEXT_GENERATED.firstRound}
+        text:`${TEXT_GENERATED.firstRound}
 
 ${TEXT_GENERATED.endGov}
 
