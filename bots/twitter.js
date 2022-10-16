@@ -39,7 +39,7 @@ function twitterBot() {
 
 ${TEXT_GENERATED.endGov}
 
-#Eleicoes2022 ${process.env.HASHTAG || hashtag?.hashtag || ''}`,
+#Eleicoes2022 #DebateNaBand ${process.env.HASHTAG || hashtag?.hashtag || ''}`,
         media: {
           media_ids: [
             data.media_id_string
