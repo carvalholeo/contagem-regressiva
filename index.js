@@ -11,6 +11,11 @@ const twitterBot = require('./bots/twitter');
 const bouncer = require('./middlewares/bouncer');
 const toobusyMiddleware = require('./middlewares/toobusy');
 
+const timeGenerator = require('./lib/timeGenerator');
+
+let time = timeGenerator();
+let timeController = time;
+
 
 // deepcode ignore UseCsurfForExpress: Just receive GET requests, without create any resources at server by Express.
 const app = express();
@@ -24,11 +29,33 @@ app.use(bouncer.block);
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
 
-cron.schedule(process.env.CRON_TIME || '*/9 * * * *', (datetime) => {
-  twitterBot();
-  console.info(`Twitter bot executed at ${datetime}`);
+let task = null;
+
+cron.schedule('* * * * *', () => {
+  if (time !== timeController) {
+    console.log('Restarting due timer has changed');
+    task.stop();
+    cronTask();
+    timeController = time;
+    return;
+  }
 }, {
-  timezone: 'America/Sao_Paulo'
+  timezone: 'America/Sao_Paulo',
 });
+
+function cronTask() {
+  task = cron.schedule(process.env.CRON_TIME || time, (datetime) => {
+    twitterBot();
+    console.info(`Twitter bot executed at ${datetime}`);
+    time = timeGenerator();
+    console.log(`Next schedule: ${time}`);
+    return;
+  }, {
+    timezone: 'America/Sao_Paulo',
+    scheduled: true
+  });
+}
+
+cronTask();
 
 module.exports = app;
