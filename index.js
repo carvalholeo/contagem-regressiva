@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 let task = null;
 
-cron.schedule('* * * * *', () => {
+cron.schedule(`${+CRON_MIN_INTERVAL - 1 } * * * *`, () => {
   if (time !== timeController) {
     console.log('Restarting due timer has changed');
     task.stop();
