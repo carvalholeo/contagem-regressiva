@@ -14,13 +14,20 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      signal: {
+        type: Sequelize.STRING(5),
+        allowNull: false,
+        defaultValue: '?'
+      },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },

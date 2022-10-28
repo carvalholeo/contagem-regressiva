@@ -18,6 +18,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+    },
+    signal: {
+      type: DataTypes.STRING(5),
+      allowNull: false,
+      defaultValue: '?'
     }
   }, {
     sequelize,
