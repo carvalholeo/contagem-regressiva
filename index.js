@@ -16,6 +16,7 @@ const timeGenerator = require('./lib/timeGenerator');
 let time = timeGenerator();
 let timeController = time;
 
+console.log(`First schedule: ${time}`);
 
 // deepcode ignore UseCsurfForExpress: Just receive GET requests, without create any resources at server by Express.
 const app = express();
