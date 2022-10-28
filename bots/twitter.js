@@ -32,6 +32,13 @@ function twitterBot() {
         headers: form.getHeaders()
       });
 
+      await twitterUploadApi.post('metadata/create', {
+        media_id: response.data.media_id_string,
+        alt_text: {
+          text: TEXT_GENERATED.endGov
+        }
+      });
+
       return { data: response.data, TEXT_GENERATED };
     })
     .then(async ({ data, TEXT_GENERATED }) => {
