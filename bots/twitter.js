@@ -11,6 +11,8 @@ const { Hashtag } = require('../models');
 
 let attempt = 1;
 
+const { ATTACK_MODE = 0 } = process.env;
+
 function twitterBot() {
 
   text()
@@ -39,6 +41,7 @@ function twitterBot() {
 
 ${TEXT_GENERATED.endGov}
 
+${+ATTACK_MODE ? TEXT_GENERATED.questions : ''}
 #Eleicoes2022 ${process.env.HASHTAG || hashtag?.hashtag || ''}`,
         media: {
           media_ids: [
