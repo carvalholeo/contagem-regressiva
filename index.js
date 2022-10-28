@@ -32,22 +32,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 let task = null;
 
-const { CRON_MIN_INTERVAL = 9 } = process.env;
+const { CRON_MIN_INTERVAL = 9, CRON_TIME } = process.env;
 
-cron.schedule(`${+CRON_MIN_INTERVAL - 1 } * * * *`, () => {
-  if (time !== timeController) {
-    console.log('Restarting due timer has changed');
-    task.stop();
-    cronTask();
-    timeController = time;
-    return;
-  }
-}, {
-  timezone: 'America/Sao_Paulo',
-});
+if (CRON_TIME) {
+  cron.schedule(`${+CRON_MIN_INTERVAL - 1 } * * * *`, () => {
+    if (time !== timeController) {
+      console.log('Restarting due timer has changed');
+      task.stop();
+      cronTask();
+      timeController = time;
+      return;
+    }
+  }, {
+    timezone: 'America/Sao_Paulo',
+  });
+}
 
 function cronTask() {
-  task = cron.schedule(process.env.CRON_TIME || time, (datetime) => {
+  task = cron.schedule(CRON_TIME || time, (datetime) => {
     twitterBot();
     console.info(`Twitter bot executed at ${datetime}`);
     time = timeGenerator();
