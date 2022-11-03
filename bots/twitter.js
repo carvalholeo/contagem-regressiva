@@ -44,12 +44,11 @@ function twitterBot() {
     .then(async ({ data, TEXT_GENERATED }) => {
       const hashtag = await Hashtag.findOne({});
       await twitterApi.post('tweets', {
-        text:`${TEXT_GENERATED.firstRound}
-
-${TEXT_GENERATED.endGov}
+        text:`${TEXT_GENERATED.endGov}
 
 ${+ATTACK_MODE ? TEXT_GENERATED.questions : ''}
-#Eleicoes2022 ${process.env.HASHTAG || hashtag?.hashtag || ''}`,
+
+${process.env.HASHTAG || hashtag?.hashtag || ''}`,
         media: {
           media_ids: [
             data.media_id_string
