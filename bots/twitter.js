@@ -35,7 +35,9 @@ function twitterBot() {
       await twitterUploadApi.post('metadata/create', {
         media_id: response.data.media_id_string,
         alt_text: {
-          text: TEXT_GENERATED.endGov
+          text: `Na parte de cima, ao centro, há um ícone de um cronômetro com o fundo azul.
+Abaixo, centralizado, é possível ler o texto "${TEXT_GENERATED.endGov}".
+Na parte de baixo, centralizado, lê o nome de usuário da página: Arroba Contador Queda.`
         }
       });
 
