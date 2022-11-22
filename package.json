@@ -14,9 +14,9 @@
   "author": "Léo Carvalho <carvalho.csleo@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.30",
     "axios": "^0.24.0",
     "axios-oauth-1.0a": "^0.3.4",
-    "canvas": "^2.10.2",
     "compression": "^1.7.4",
     "dotenv": "^11.0.0",
     "express": "^4.17.3",
