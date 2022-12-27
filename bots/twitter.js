@@ -65,7 +65,7 @@ ${process.env.HASHTAG || hashtag?.hashtag || ''}`,
         twitterBot();
         return;
       }
-      console.trace(error)
+      console.trace(error?.data)
     });
 }
 
