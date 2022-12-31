@@ -11,7 +11,7 @@ const { Hashtag } = require('../models');
 
 let attempt = 1;
 
-const { ATTACK_MODE = 0 } = process.env;
+const { ATTACK_MODE = 0, END_GOV = 1, INAUGURATION = 1 } = process.env;
 
 function twitterBot() {
 
@@ -22,53 +22,58 @@ function twitterBot() {
         twitterBot();
         throw new Error('Error used for skip next steps.');
       }
-      const file = await imageGenerator(TEXT_GENERATED.endGov);
-      const inauguration = await imageGenerator(TEXT_GENERATED.inauguration);
+      let response, responseInauguration = undefined;
 
-      const form = new FormData();
-      form.append('media_data', file);
-      form.append('media_category', 'tweet_image');
+      if (+END_GOV) {
+        const file = await imageGenerator(TEXT_GENERATED.endGov);
+        const form = new FormData();
+        form.append('media_data', file);
+        form.append('media_category', 'tweet_image');
+        response = await twitterUploadApi.post('upload.json', form, {
+          headers: form.getHeaders()
+        });
+        await twitterUploadApi.post('metadata/create', {
+          media_id: response.data.media_id_string,
+          alt_text: {
+            text: `Na parte de cima, ao centro, há um ícone de um cronômetro com o fundo azul.
+  Abaixo, centralizado, é possível ler o texto "${TEXT_GENERATED.endGov}".
+  Na parte de baixo, centralizado, lê o nome de usuário da página: Arroba Contador Queda.`
+          }
+        });
+      }
 
-      const formInauguration = new FormData();
-      formInauguration.append('media_data', inauguration);
-      formInauguration.append('media_category', 'tweet_image');
+      if (+INAUGURATION) {
+        const inauguration = await imageGenerator(TEXT_GENERATED.inauguration);
+        const formInauguration = new FormData();
+        formInauguration.append('media_data', inauguration);
+        formInauguration.append('media_category', 'tweet_image');
+        responseInauguration = await twitterUploadApi.post('upload.json', formInauguration, {
+          headers: formInauguration.getHeaders()
+        });
+        await twitterUploadApi.post('metadata/create', {
+          media_id: responseInauguration.data.media_id_string,
+          alt_text: {
+            text: `Na parte de cima, ao centro, há um ícone de um cronômetro com o fundo azul.
+  Abaixo, centralizado, é possível ler o texto "${TEXT_GENERATED.inauguration}".
+  Na parte de baixo, centralizado, lê o nome de usuário da página: Arroba Contador Queda.`
+          }
+        });
+      }
 
-      const response = await twitterUploadApi.post('upload.json', form, {
-        headers: form.getHeaders()
-      });
 
-      const responseInauguration = await twitterUploadApi.post('upload.json', formInauguration, {
-        headers: formInauguration.getHeaders()
-      });
-
-      await twitterUploadApi.post('metadata/create', {
-        media_id: response.data.media_id_string,
-        alt_text: {
-          text: `Na parte de cima, ao centro, há um ícone de um cronômetro com o fundo azul.
-Abaixo, centralizado, é possível ler o texto "${TEXT_GENERATED.endGov}".
-Na parte de baixo, centralizado, lê o nome de usuário da página: Arroba Contador Queda.`
-        }
-      });
-
-      await twitterUploadApi.post('metadata/create', {
-        media_id: responseInauguration.data.media_id_string,
-        alt_text: {
-          text: `Na parte de cima, ao centro, há um ícone de um cronômetro com o fundo azul.
-Abaixo, centralizado, é possível ler o texto "${TEXT_GENERATED.inauguration}".
-Na parte de baixo, centralizado, lê o nome de usuário da página: Arroba Contador Queda.`
-        }
-      });
-
-      return { data: {endGov: response.data, inauguration: responseInauguration.data}, TEXT_GENERATED };
+      return { data: {
+        endGov: response?.data,
+        inauguration: responseInauguration?.data
+      }, TEXT_GENERATED };
     })
     .then(async ({ data, TEXT_GENERATED }) => {
       const hashtag = await Hashtag.findOne({});
       await twitterApi.post('tweets', {
-        text:`${TEXT_GENERATED.endGov}
+        text:`${+END_GOV ? TEXT_GENERATED.endGov : ''}
 
 ${+ATTACK_MODE ? TEXT_GENERATED.questions : ''}
 
-${TEXT_GENERATED.inauguration}
+${+INAUGURATION ? TEXT_GENERATED.inauguration : ''}
 
 ${process.env.HASHTAG || hashtag?.hashtag || ''}`,
         media: {
