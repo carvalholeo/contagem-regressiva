@@ -71,11 +71,11 @@ function twitterBot() {
 
       const text = `${+END_GOV ? TEXT_GENERATED.endGov : ''}
 
-      ${+ATTACK_MODE ? TEXT_GENERATED.questions : ''}
+${+ATTACK_MODE ? TEXT_GENERATED.questions : ''}
 
-      ${+INAUGURATION ? TEXT_GENERATED.inauguration : ''}
+${+INAUGURATION ? TEXT_GENERATED.inauguration : ''}
 
-      ${process.env.HASHTAG || hashtag?.hashtag || ''}`
+${process.env.HASHTAG || hashtag?.hashtag || ''}`
 
       if (text.trim().length === 0) {
         throw new Error('Text is empty.');
