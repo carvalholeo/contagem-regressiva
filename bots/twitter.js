@@ -68,18 +68,24 @@ function twitterBot() {
     })
     .then(async ({ data, TEXT_GENERATED }) => {
       const hashtag = await Hashtag.findOne({});
+
+      const text = `${+END_GOV ? TEXT_GENERATED.endGov : ''}
+
+      ${+ATTACK_MODE ? TEXT_GENERATED.questions : ''}
+
+      ${+INAUGURATION ? TEXT_GENERATED.inauguration : ''}
+
+      ${process.env.HASHTAG || hashtag?.hashtag || ''}`
+
+      if (text.trim().length === 0) {
+        throw new Error('Text is empty.');
+      }
       await twitterApi.post('tweets', {
-        text:`${+END_GOV ? TEXT_GENERATED.endGov : ''}
-
-${+ATTACK_MODE ? TEXT_GENERATED.questions : ''}
-
-${+INAUGURATION ? TEXT_GENERATED.inauguration : ''}
-
-${process.env.HASHTAG || hashtag?.hashtag || ''}`,
+        text,
         media: {
           media_ids: [
-            +END_GOV ? data?.endGov?.media_id_string : '1609180378387943424',
-            +INAUGURATION ? data?.inauguration?.media_id_string : '1609180378387943424'
+            data?.endGov?.media_id_string || process.env.IMAGE_DEFAULT,
+            data?.inauguration?.media_id_string || process.env.IMAGE_DEFAULT
           ]
         }
       });
