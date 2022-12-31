@@ -78,8 +78,8 @@ ${+INAUGURATION ? TEXT_GENERATED.inauguration : ''}
 ${process.env.HASHTAG || hashtag?.hashtag || ''}`,
         media: {
           media_ids: [
-            data?.endGov?.media_id_string,
-            data?.inauguration?.media_id_string
+            +END_GOV ? data?.endGov?.media_id_string : '',
+            +INAUGURATION ? data?.inauguration?.media_id_string : ''
           ]
         }
       });
