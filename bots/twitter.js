@@ -22,14 +22,23 @@ function twitterBot() {
         twitterBot();
         throw new Error('Error used for skip next steps.');
       }
-      const file = await imageGenerator(TEXT_GENERATED.endGov)
+      const file = await imageGenerator(TEXT_GENERATED.endGov);
+      const inauguration = await imageGenerator(TEXT_GENERATED.inauguration);
 
       const form = new FormData();
       form.append('media_data', file);
       form.append('media_category', 'tweet_image');
 
+      const formInauguration = new FormData();
+      formInauguration.append('media_data', inauguration);
+      formInauguration.append('media_category', 'tweet_image');
+
       const response = await twitterUploadApi.post('upload.json', form, {
         headers: form.getHeaders()
+      });
+
+      const responseInauguration = await twitterUploadApi.post('upload.json', formInauguration, {
+        headers: formInauguration.getHeaders()
       });
 
       await twitterUploadApi.post('metadata/create', {
@@ -41,7 +50,16 @@ Na parte de baixo, centralizado, lê o nome de usuário da página: Arroba Conta
         }
       });
 
-      return { data: response.data, TEXT_GENERATED };
+      await twitterUploadApi.post('metadata/create', {
+        media_id: responseInauguration.data.media_id_string,
+        alt_text: {
+          text: `Na parte de cima, ao centro, há um ícone de um cronômetro com o fundo azul.
+Abaixo, centralizado, é possível ler o texto "${TEXT_GENERATED.inauguration}".
+Na parte de baixo, centralizado, lê o nome de usuário da página: Arroba Contador Queda.`
+        }
+      });
+
+      return { data: {endGov: response.data, inauguration: responseInauguration.data}, TEXT_GENERATED };
     })
     .then(async ({ data, TEXT_GENERATED }) => {
       const hashtag = await Hashtag.findOne({});
@@ -50,10 +68,13 @@ Na parte de baixo, centralizado, lê o nome de usuário da página: Arroba Conta
 
 ${+ATTACK_MODE ? TEXT_GENERATED.questions : ''}
 
+${TEXT_GENERATED.inauguration}
+
 ${process.env.HASHTAG || hashtag?.hashtag || ''}`,
         media: {
           media_ids: [
-            data.media_id_string
+            data.endGov.media_id_string,
+            data.inauguration.media_id_string
           ]
         }
       });
