@@ -58,12 +58,12 @@ if (+SECRETS) {
           media_id: responseInauguration.data.media_id_string,
           alt_text: {
             text: `Na parte de cima, ao centro, há um ícone de um cronômetro com o fundo azul.
-  Abaixo, centralizado, é possível ler o texto "${TEXT_GENERATED.secrets}".
+  Abaixo, centralizado, é possível ler o texto "${TEXT_GENERATED.secret}".
   Na parte de baixo, centralizado, lê o nome de usuário da página: Arroba Contador Queda.`
           }
         });
         
-      const text = `${TEXT_GENERATED.secrets}
+      const text = `${TEXT_GENERATED.secret}
 
 ${process.env.HASHTAG || hashtag?.hashtag || ''}`
 
