@@ -24,24 +24,6 @@ function twitterBot() {
       }
       let response, responseInauguration = undefined;
 
-      if (+END_GOV) {
-        const file = await imageGenerator(TEXT_GENERATED.endGov);
-        const form = new FormData();
-        form.append('media_data', file);
-        form.append('media_category', 'tweet_image');
-        response = await twitterUploadApi.post('upload.json', form, {
-          headers: form.getHeaders()
-        });
-        await twitterUploadApi.post('metadata/create', {
-          media_id: response.data.media_id_string,
-          alt_text: {
-            text: `Na parte de cima, ao centro, há um ícone de um cronômetro com o fundo azul.
-  Abaixo, centralizado, é possível ler o texto "${TEXT_GENERATED.endGov}".
-  Na parte de baixo, centralizado, lê o nome de usuário da página: Arroba Contador Queda.`
-          }
-        });
-      }
-
       if (+INAUGURATION) {
         const inauguration = await imageGenerator(TEXT_GENERATED.inauguration);
         const formInauguration = new FormData();
@@ -84,7 +66,6 @@ ${process.env.HASHTAG || hashtag?.hashtag || ''}`
         text,
         media: {
           media_ids: [
-            data?.endGov?.media_id_string || process.env.IMAGE_DEFAULT,
             data?.inauguration?.media_id_string || process.env.IMAGE_DEFAULT
           ]
         }
