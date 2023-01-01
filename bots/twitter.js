@@ -16,7 +16,7 @@ async function twitterBot() {
   const textsToTweet = text();
       const hashtag = await Hashtag.findOne({});
       if (+PRISON) {
-        const prison = await imageGenerator(TEXT_GENERATED.prison);
+        const prison = await imageGenerator(textsToTweet.prison);
         const formInauguration = new FormData();
         formInauguration.append('media_data', prison);
         formInauguration.append('media_category', 'tweet_image');
@@ -27,12 +27,12 @@ async function twitterBot() {
           media_id: responseInauguration.data.media_id_string,
           alt_text: {
             text: `Na parte de cima, ao centro, há um ícone de um cronômetro com o fundo azul.
-  Abaixo, centralizado, é possível ler o texto "${TEXT_GENERATED.prison}".
+  Abaixo, centralizado, é possível ler o texto "${textsToTweet.prison}".
   Na parte de baixo, centralizado, lê o nome de usuário da página: Arroba Contador Queda.`
           }
         });
         
-      const text = `${TEXT_GENERATED.prison}
+      const text = `${textsToTweet.prison}
 
 ${process.env.HASHTAG || hashtag?.hashtag || ''}`
 
@@ -47,7 +47,7 @@ await twitterApi.post('tweets', {
       }
       
 if (+SECRETS) {
-        const secrets = await imageGenerator(TEXT_GENERATED.secret);
+        const secrets = await imageGenerator(textsToTweet.secret);
         const formInauguration = new FormData();
         formInauguration.append('media_data', prison);
         formInauguration.append('media_category', 'tweet_image');
@@ -58,12 +58,12 @@ if (+SECRETS) {
           media_id: responseInauguration.data.media_id_string,
           alt_text: {
             text: `Na parte de cima, ao centro, há um ícone de um cronômetro com o fundo azul.
-  Abaixo, centralizado, é possível ler o texto "${TEXT_GENERATED.secret}".
+  Abaixo, centralizado, é possível ler o texto "${textsToTweet.secret}".
   Na parte de baixo, centralizado, lê o nome de usuário da página: Arroba Contador Queda.`
           }
         });
         
-      const text = `${TEXT_GENERATED.secret}
+      const text = `${textsToTweet.secret}
 
 ${process.env.HASHTAG || hashtag?.hashtag || ''}`
 
