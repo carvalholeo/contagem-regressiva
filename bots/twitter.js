@@ -49,7 +49,7 @@ await twitterApi.post('tweets', {
 if (+SECRETS) {
         const secrets = await imageGenerator(textsToTweet.secret);
         const formInauguration = new FormData();
-        formInauguration.append('media_data', prison);
+        formInauguration.append('media_data', secrets);
         formInauguration.append('media_category', 'tweet_image');
         const response = await twitterUploadApi.post('upload.json', formInauguration, {
           headers: formInauguration.getHeaders()
