@@ -24,7 +24,7 @@ async function twitterBot() {
           headers: formInauguration.getHeaders()
         });
         await twitterUploadApi.post('metadata/create', {
-          media_id: responseInauguration.data.media_id_string,
+          media_id: response.data.media_id_string,
           alt_text: {
             text: `Na parte de cima, ao centro, há um ícone de um cronômetro com o fundo azul.
   Abaixo, centralizado, é possível ler o texto "${textsToTweet.prison}".
@@ -55,7 +55,7 @@ if (+SECRETS) {
           headers: formInauguration.getHeaders()
         });
         await twitterUploadApi.post('metadata/create', {
-          media_id: responseInauguration.data.media_id_string,
+          media_id: response.data.media_id_string,
           alt_text: {
             text: `Na parte de cima, ao centro, há um ícone de um cronômetro com o fundo azul.
   Abaixo, centralizado, é possível ler o texto "${textsToTweet.secret}".
